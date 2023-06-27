@@ -1,4 +1,4 @@
-# Whale catches and krill catches by country
+#Code for Figure 3 - Whaling and krill fishing by nation and time
 
 source("Util_WKP.R")
 
