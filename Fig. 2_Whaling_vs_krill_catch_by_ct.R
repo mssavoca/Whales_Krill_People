@@ -1,4 +1,4 @@
-#Code for Figure 3 - Whaling and krill fishing by nation and time----
+#Code for Figure 2 Nat Comms - Whaling and krill fishing by nation and time----
 
 source("Util_WKP.R")
 
