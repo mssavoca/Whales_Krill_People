@@ -4,7 +4,7 @@ source("Util_WKP.R")
 
 
 
-pal_ct <- c("Norway" = "firebrick3",
+pal_ct <- c("Norway" = "darksalmon",
             "Japan" = "darkred",
             "United Kingdom" = "blue2",
             "USSR" = "gold2",
@@ -78,7 +78,7 @@ whaling_by_nation_num <- ggplot(filter(whaling_summary_by_nation,
         y = "Total whales harvested") +
   scale_y_continuous(labels = scales::comma) +  
   scale_fill_manual(values = pal_ct) +
-  theme_classic(base_size = 24) +
+  theme_classic(base_size = 16) +
   theme(legend.position = "none",
        axis.text.x = element_text(angle = 35, vjust = 1, hjust=1)
         )
@@ -87,8 +87,8 @@ whaling_by_nation_num
 
 #ggsave("whaling_by_nation_num.pdf")
 
-# dev.copy2pdf(file="Whaling by nation.pdf", 
-#              width=4, height=5)
+dev.copy2pdf(file="Whaling by nation_r3.pdf",
+             width=5, height=4)
 
 
 
@@ -242,7 +242,7 @@ krill_fishing_by_nation_num_AT <- ggplot(filter(krill_fishing_by_nation,
                                     fill = vessel_nationality)) +
   geom_bar(stat="identity") +
   labs( x = "",
-        y = "Total krill catch all time (Mt)") +
+        y = "Total krill catch (Mt)") +
   scale_y_continuous(labels = scales::comma) + 
   scale_fill_manual(values = pal_ct) +
   theme_classic(base_size = 16) +
@@ -251,10 +251,9 @@ krill_fishing_by_nation_num_AT <- ggplot(filter(krill_fishing_by_nation,
 
 krill_fishing_by_nation_num_AT
 
-ggsave("krill_fishing_by_nation_num_AT R2.pdf", width = 7, height = 5.1)
 
-dev.copy2pdf(file="Krill catch all time R2.pdf",
-             width=4, height=5)
+dev.copy2pdf(file="Krill catch all time R3.pdf",
+             width=5, height=4)
 
 
 
@@ -364,13 +363,38 @@ krill_fishing_by_nation_yr_plot
 
 
 
-
-
-
 # Whaling and krill fishing on the same timeline----
 
-library(ggpattern)
-library(magick)
+whaling_kf_by_nation_yr_R3 <- ggplot() +
+  geom_area(data = whaling_summ_by_nation_yr_cut,
+            aes(x = Year, y = n, fill = ct_full)) +
+  geom_area(data = krill_fishing_by_nation_yr_comb, 
+            aes(x = year, y = Total_wt_tonne/15, fill = vessel_nationality),
+            alpha = 0.7,
+            color = 1,    # Line color
+            lwd = 0.25,    # Line width
+            linetype = 1) +
+  labs(
+    fill = "Nation",
+    x = "Year",
+    y = "Whale catch (individuals)",
+    title = "Whale and Krill Catch Over Time") +
+  scale_fill_manual(values = pal_ct) +
+  theme_classic(base_size = 18) +
+  scale_x_continuous(limits = c(1900, 2022), breaks = seq(1900, 2020, by = 20)) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ . * 15, name = "Krill catch (tonnes)", breaks = seq(0, 600000, by = 100000), 
+                        labels = scales::comma)
+  )
+
+print(whaling_kf_by_nation_yr_R3)
+
+ggsave("whaling_kf_by_nation_yr_R3.pdf", width = 14.5, height = 5)
+
+
+
+
+
 
 whaling_kf_by_nation_yr <- ggplot() +
   geom_area(data = whaling_summ_by_nation_yr_cut,
@@ -400,7 +424,7 @@ whaling_kf_by_nation_yr <- ggplot() +
 whaling_kf_by_nation_yr
 
 
-#ggsave("whaling_kf_by_nation_yr_R2.pdf", width = 15, height = 5)
+ggsave("whaling_kf_by_nation_yr_R3.pdf", width = 15, height = 5)
 
 
 
